@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/konomoto-product-block",
+  "version": "0.1.0",
+  "title": "Konomoto Product Block",
+  "category": "theme",
+  "icon": "products",
+  "keywords": [
+    "custom-post-type"
+  ],
+  "description": "Custom product post type for Konomoto Wood Design",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "konomoto-product-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}
