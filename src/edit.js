@@ -4,7 +4,7 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
 import { __ } from "@wordpress/i18n";
-import { useState } from "@wordpress/element";
+import { useState, useEffect } from "@wordpress/element";
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -12,10 +12,7 @@ import { useState } from "@wordpress/element";
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import {
-	useBlockProps,
-	_experimentalGetEditorPostAttribute,
-} from "@wordpress/block-editor";
+import { useBlockProps, RichText } from "@wordpress/block-editor";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -34,36 +31,53 @@ import "./editor.scss";
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
+	const blockProps = useBlockProps();
+
 	const defaultFormData = {
-		description: "",
-		price: "",
-		materials: [{ piece: "", madeFrom: "" }],
-		measurements: [
-			{
-				name: "Length:",
-				value: "",
-				unit: "cm",
-			},
-			{
-				name: "Width:",
-				value: "",
-				unit: "cm",
-			},
-			{
-				name: "Height:",
-				value: "",
-				unit: "cm",
-			},
-			{
-				name: "Depth:",
-				value: "",
-				unit: "cm",
-			},
-		],
+		description: attributes.description ? attributes.description : "",
+		price: attributes.price ? attributes.price : "",
+		materials: attributes.materials
+			? attributes.materials
+			: [{ piece: "", madeFrom: "" }],
+		measurements: attributes.measurements
+			? attributes.measurements
+			: [
+					{
+						name: "Length:",
+						value: "",
+						unit: "cm",
+					},
+					{
+						name: "Width:",
+						value: "",
+						unit: "cm",
+					},
+					{
+						name: "Height:",
+						value: "",
+						unit: "cm",
+					},
+					{
+						name: "Depth:",
+						value: "",
+						unit: "cm",
+					},
+			  ],
 	};
 
 	const [formData, setFormData] = useState(defaultFormData);
 
+	useEffect(() => {
+		setAttributes(
+			{
+				description: formData.description,
+				price: formData.price,
+				materials: formData.materials,
+				measurements: formData.measurements,
+			},
+			[]
+		);
+	});
 	// const clearFormData = setFormData(defaultFormData);
 
 	const addPiece = () => {
@@ -72,6 +86,8 @@ export default function Edit({ attributes, setAttributes }) {
 		materials.push({ piece: "", madeFrom: "" });
 
 		setFormData({ ...formData, materials });
+
+		setAttributes({ ...attributes, materials: formData.materials });
 	};
 
 	const removePiece = (event, index) => {
@@ -86,37 +102,61 @@ export default function Edit({ attributes, setAttributes }) {
 		// console.log("After remove: ", materials);
 
 		setFormData({ ...formData, materials });
+
+		setAttributes({ ...attributes, materials: formData.materials });
 	};
 
-	const handleTextChange = (event) => {
-		const { value, name } = event.target;
-
-		if (value !== "" || value !== null) {
+	const handleDescriptionChange = (content) => {
+		if (content) {
 			setFormData({
 				...formData,
-				[name]: value,
+				description: content,
 			});
+
+			setAttributes({ ...attributes, description: formData.description });
 		}
+
+		console.log("Attributes: ", attributes);
 	};
 
-	const handleMaterialChange = (event, index) => {
-		const { value, name } = event.target;
+	const handlePriceChange = (content) => {
+		if (content) {
+			setFormData({
+				...formData,
+				price: content,
+			});
 
+			setAttributes({ ...attributes, price: formData.price });
+		}
+
+		console.log("Attributes: ", attributes);
+	};
+
+	const handleMaterialPieceChange = (value, index) => {
 		const materials = formData.materials;
 
-		if (name.includes("piece")) {
-			materials[index].piece = value;
-			setFormData({
-				...formData,
-				materials,
-			});
-		} else if (name.includes("madeFrom")) {
-			materials[index].madeFrom = value;
-			setFormData({
-				...formData,
-				materials,
-			});
-		}
+		materials[index].piece = value;
+		setFormData({
+			...formData,
+			materials: materials,
+		});
+
+		setAttributes({ ...attributes, materials: formData.materials });
+
+		console.log("Material changed");
+	};
+
+	const handleMaterialMadeFromChange = (value, index) => {
+		const materials = formData.materials;
+
+		materials[index].madeFrom = value;
+
+		setFormData({
+			...formData,
+			materials: materials,
+		});
+
+		setAttributes({ ...attributes, materials: formData.materials });
 
 		console.log("Material changed");
 	};
@@ -128,41 +168,50 @@ export default function Edit({ attributes, setAttributes }) {
 
 		if (name.includes("unit")) {
 			measurements[index].unit = value;
+
 			setFormData({ ...formData, measurements });
-			console.log("Unit change: ", formData.measurements);
+
+			setAttributes({ ...attributes, measurements: formData.measurements });
+			// console.log("Unit change: ", formData.measurements);
 		} else {
 			measurements[index].value = value;
+
 			setFormData({ ...formData, measurements });
-			console.log("Measurement change: ", formData.measurements);
+
+			setAttributes({ ...attributes, measurements: formData.measurements });
+			// console.log("Measurement change: ", formData.measurements);
 		}
 
 		console.log("Measurement changed");
 	};
 
 	return (
-		<div {...useBlockProps()}>
+		<div {...blockProps}>
 			<div>
-				<label htmlFor="description">Description:</label>
-				<textarea
+				<RichText
+					tagName="p"
+					multiline="true"
+					withoutInteractiveFormatting="true"
 					name="description"
 					id="description"
 					value={formData.description}
-					placeholder="Enter a description..."
-					onChange={(e) => handleTextChange(e)}
+					placeholder={__("Enter a description...")}
+					onChange={(content) => handleDescriptionChange(content)}
 				/>
 			</div>
-			<div>
-				<label htmlFor="price">$</label>
-				<input
-					type="number"
+			<div style={{ display: "flex" }}>
+				<p>$</p>
+				<RichText
+					tagName="p"
+					withoutInteractiveFormatting="true"
 					name="price"
 					id="price"
 					value={formData.price}
 					placeholder="9999"
-					onChange={(e) => handleTextChange(e)}
+					onChange={(content) => handlePriceChange(content)}
 				/>
 			</div>
-			<div>
+			<div style={{ display: "flex", flexDirection: "column" }}>
 				<h3>Materials</h3>
 				<div style={{ display: "flex" }}>
 					<h3>Piece</h3>
@@ -170,24 +219,30 @@ export default function Edit({ attributes, setAttributes }) {
 				</div>
 				{formData.materials.map((material, index) => {
 					return (
-						<div key={index}>
-							<input
-								type="text"
+						<div key={index} style={{ display: "flex", gap: "1rem" }}>
+							<RichText
+								tagName="p"
+								withoutInteractiveFormatting="true"
 								id={`piece-${index}`}
 								name={`piece-${index}`}
 								value={material.piece}
 								placeholder="Piece name"
-								onChange={(e) => handleMaterialChange(e, index)}
+								onChange={(content) =>
+									handleMaterialPieceChange(content, index)
+								}
 							/>
-							<input
-								type="text"
+							<RichText
+								tagName="p"
+								withoutInteractiveFormatting="true"
 								id={`madeFrom-${index}`}
 								name={`madeFrom-${index}`}
 								value={material.madeFrom}
 								placeholder="Made from..."
-								onChange={(e) => handleMaterialChange(e, index)}
+								onChange={(content) =>
+									handleMaterialMadeFromChange(content, index)
+								}
 							/>
-							<button onClick={(e) => removePiece(e, index)}>- Remove</button>
+							<button onClick={(e) => removePiece(e, index)}>-</button>
 						</div>
 					);
 				})}

@@ -22,22 +22,27 @@
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 
-function kwd_product_render_callback($block_attributes, $content)
+// function kwd_product_render_callback($block_attributes, $content)
+// {
+
+// 	$price = $block_attributes['price'];
+
+
+// 	return sprintf(
+// 		'$%u',
+// 		$price
+// 	);
+// }
+
+function create_block_konomoto_product_block_init()
 {
-	return sprintf(
-		'This is a test print from the render callback.'
-	);
+	register_block_type(__DIR__ . '/build');
+
+	// register_block_type(__DIR__ . '/build', array(
+	// 	'render_callback' => 'kwd_product_render_callback'
+	// ));
 }
-
-function create_block_konomoto_product_block_block_init()
-{
-
-
-	register_block_type(__DIR__ . '/build', array(
-		'render_callback' => 'kwd_product_render_callback'
-	));
-}
-add_action('init', 'create_block_konomoto_product_block_block_init');
+add_action('init', 'create_block_konomoto_product_block_init');
 
 function kwd_register_product_post_type()
 {

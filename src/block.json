@@ -11,6 +11,20 @@
 	"supports": {
 		"html": false
 	},
+	"attributes": {
+		"description": {
+			"type": "string"
+		},
+		"price": {
+			"type": "string"
+		},
+		"materials": {
+			"type": "array"
+		},
+		"measurements": {
+			"type": "array"
+		}
+	},
 	"textdomain": "konomoto-product-block",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
