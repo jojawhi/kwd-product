@@ -55,21 +55,16 @@ function kwd_register_product_post_type()
 			'menu_icon' => 'dashicons-products',
 			'menu_position' => 10,
 			'rewrite' => array('slug' => 'gallery'),
-			// 'template' => array(
-			// 	array('core/gallery', array(
-			// 		'align' => 'full'
-			// 	)),
-			// 	array('core/group', array(
-			// 		'align' => 'full',
-			// 		array(
-			// 			array('core/post-title'),
-			// 			array('core/paragraph', array(
-			// 				'placeholder' => 'Enter a description'
-			// 			)),
-			// 		)
-			// 	))
-
-			// )
+			'supports' => array('editor', 'title', 'thumbnail'),
+			'template' => array(
+				array(
+					'konomotoblock/konomoto-product-block',
+					array('lock' => array(
+						'move' => true,
+						'remove' => true
+					))
+				),
+			)
 		)
 	);
 }

@@ -13,6 +13,7 @@ import { useState, useEffect } from "@wordpress/element";
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps, RichText } from "@wordpress/block-editor";
+import { Dashicon } from "@wordpress/components";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -143,7 +144,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 		setAttributes({ ...attributes, materials: formData.materials });
 
-		console.log("Material changed");
+		console.log(attributes.materials);
 	};
 
 	const handleMaterialMadeFromChange = (value, index) => {
@@ -161,34 +162,35 @@ export default function Edit({ attributes, setAttributes }) {
 		console.log("Material changed");
 	};
 
-	const handleMeasurementChange = (event, index) => {
-		const { value, name } = event.target;
-
+	const handleMeasurementChange = (value, index) => {
 		const measurements = formData.measurements;
 
-		if (name.includes("unit")) {
-			measurements[index].unit = value;
+		measurements[index].value = value;
 
-			setFormData({ ...formData, measurements });
+		setFormData({ ...formData, measurements });
 
-			setAttributes({ ...attributes, measurements: formData.measurements });
-			// console.log("Unit change: ", formData.measurements);
-		} else {
-			measurements[index].value = value;
-
-			setFormData({ ...formData, measurements });
-
-			setAttributes({ ...attributes, measurements: formData.measurements });
-			// console.log("Measurement change: ", formData.measurements);
-		}
+		setAttributes({ ...attributes, measurements: formData.measurements });
+		// console.log("Measurement change: ", formData.measurements);
 
 		console.log("Measurement changed");
+	};
+
+	const handleUnitChange = (value, index) => {
+		const measurements = formData.measurements;
+
+		measurements[index].unit = value;
+
+		setFormData({ ...formData, measurements });
+
+		setAttributes({ ...attributes, measurements: formData.measurements });
 	};
 
 	return (
 		<div {...blockProps}>
 			<div>
+				<h2>Description:</h2>
 				<RichText
+					className="kwd-edit-input"
 					tagName="p"
 					multiline="true"
 					withoutInteractiveFormatting="true"
@@ -199,29 +201,35 @@ export default function Edit({ attributes, setAttributes }) {
 					onChange={(content) => handleDescriptionChange(content)}
 				/>
 			</div>
-			<div style={{ display: "flex" }}>
-				<p>$</p>
-				<RichText
-					tagName="p"
-					withoutInteractiveFormatting="true"
-					name="price"
-					id="price"
-					value={formData.price}
-					placeholder="9999"
-					onChange={(content) => handlePriceChange(content)}
-				/>
+			<div className="kwd-product-info-container">
+				<h2>Price: </h2>
+				<div className="kwd-flex-row">
+					<p>$</p>
+					<RichText
+						className="kwd-edit-input"
+						tagName="p"
+						withoutInteractiveFormatting="true"
+						name="price"
+						id="price"
+						value={formData.price}
+						placeholder="9999"
+						onChange={(content) => handlePriceChange(content)}
+					/>
+				</div>
 			</div>
-			<div style={{ display: "flex", flexDirection: "column" }}>
-				<h3>Materials</h3>
-				<div style={{ display: "flex" }}>
+			<div className="kwd-flex-column kwd-product-info-container">
+				<h2>Materials</h2>
+				<div className="kwd-edit-materials-grid">
 					<h3>Piece</h3>
 					<h3>Material</h3>
 				</div>
 				{formData.materials.map((material, index) => {
 					return (
-						<div key={index} style={{ display: "flex", gap: "1rem" }}>
+						<div key={index} className="kwd-edit-materials-grid">
 							<RichText
+								className="kwd-edit-input"
 								tagName="p"
+								format="string"
 								withoutInteractiveFormatting="true"
 								id={`piece-${index}`}
 								name={`piece-${index}`}
@@ -232,6 +240,7 @@ export default function Edit({ attributes, setAttributes }) {
 								}
 							/>
 							<RichText
+								className="kwd-edit-input"
 								tagName="p"
 								withoutInteractiveFormatting="true"
 								id={`madeFrom-${index}`}
@@ -242,38 +251,52 @@ export default function Edit({ attributes, setAttributes }) {
 									handleMaterialMadeFromChange(content, index)
 								}
 							/>
-							<button onClick={(e) => removePiece(e, index)}>-</button>
+							<button
+								onClick={(e) => removePiece(e, index)}
+								className="kwd-edit-remove-button"
+							>
+								<Dashicon icon="remove" />
+							</button>
 						</div>
 					);
 				})}
-				<button onClick={addPiece}>+ Add Part</button>
+				<button onClick={addPiece} className="kwd-edit-add-part-button">
+					+ Add Part
+				</button>
 			</div>
-			<div>
-				<h3>Measurements</h3>
+			<div className="kwd-product-info-container">
+				<h2>Measurements</h2>
 				{formData.measurements.map((measurement, index) => {
 					return (
-						<div key={index}>
-							<label htmlFor={measurement.name}>{measurement.name}</label>
-							<input
-								type="number"
-								id={`measurement-${index}`}
-								name={measurement.name}
-								value={measurement.value}
-								placeholder="0"
-								onChange={(e) => handleMeasurementChange(e, index)}
-							/>
-							<select
-								name={`${measurement.name}-unit`}
-								id={`${measurement.name}-unit`}
-								onChange={(e) => handleMeasurementChange(e, index)}
-							>
-								<option value="cm" selected>
-									cm
-								</option>
-								<option value="in">in</option>
-								<option value="m">m</option>
-								<option value="ft">ft</option>
-							</select>
+						<div key={index} className="kwd-edit-measurement-grid">
+							<p htmlFor={measurement.name}>{measurement.name}</p>
+							<div className="kwd-edit-measurement-subgrid">
+								<RichText
+									className="kwd-edit-input"
+									tagName="p"
+									withoutInteractiveFormatting="true"
+									id={`measurement-${index}`}
+									name={measurement.name}
+									value={measurement.value}
+									placeholder="0"
+									onChange={(content) =>
+										handleMeasurementChange(content, index)
+									}
+								/>
+								<select
+									name={`${measurement.name}-unit`}
+									id={`${measurement.name}-unit`}
+									onChange={(content) => handleUnitChange(content, index)}
+									className="kwd-edit-input"
+								>
+									<option value="cm" selected>
+										cm
+									</option>
+									<option value="in">in</option>
+									<option value="m">m</option>
+									<option value="ft">ft</option>
+								</select>
+							</div>
 						</div>
 					);
 				})}

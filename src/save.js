@@ -5,6 +5,7 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps, RichText } from "@wordpress/block-editor";
+import "./style.scss";
 
 /**
  * The save function defines the way in which the different attributes should
@@ -29,22 +30,47 @@ export default function save({ attributes }) {
 				<p>$</p>
 				<RichText.Content tagName="p" value={attributes.price} />
 			</div>
-			<div style={{ display: "flex", flexDirection: "column" }}>
-				<h3>Materials</h3>
-				<div style={{ display: "flex" }}>
-					<h3>Piece</h3>
-					<h3>Material</h3>
+			<div className="kwd-specifications-container">
+				<div style={{ display: "flex", flexDirection: "column" }}>
+					<h2>Materials</h2>
+					{attributes.materials
+						? attributes.materials.map((material, index) => {
+								return (
+									<div key={index} className="kwd-materials-grid">
+										<RichText.Content
+											tagName="p"
+											format="string"
+											value={`${material.piece}:`}
+										/>
+										<RichText.Content tagName="p" value={material.madeFrom} />
+									</div>
+								);
+						  })
+						: ""}
 				</div>
-				{attributes.materials
-					? attributes.materials.map((material, index) => {
-							return (
-								<div key={index} style={{ display: "flex", gap: "1rem" }}>
-									<RichText.Content tagName="p" value={material.piece} />
-									<RichText.Content tagName="p" value={material.madeFrom} />
-								</div>
-							);
-					  })
-					: ""}
+				<div style={{ display: "flex", flexDirection: "column" }}>
+					<h2>Measurements</h2>
+					{attributes.measurements
+						? attributes.measurements.map((measurement, index) => {
+								if (measurement.value !== "") {
+									return (
+										<div key={index} style={{ display: "flex", gap: "1rem" }}>
+											<p>{measurement.name}</p>
+											<div className="kwd-measurements-grid">
+												<RichText.Content
+													tagName="p"
+													value={measurement.value}
+												/>
+												<p>{measurement.unit}</p>
+											</div>
+										</div>
+									);
+								} else {
+									return;
+								}
+						  })
+						: null}
+				</div>
 			</div>
 		</div>
 	);

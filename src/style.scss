@@ -6,7 +6,43 @@
  */
 
 .wp-block-create-block-konomoto-product-block {
-	background-color: #21759b;
+	background-color: transparent;
 	color: #fff;
-	padding: 1rem;
+
+	& p {
+		margin: 0.5rem 0;
+	}
+}
+
+.kwd-flex-row {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.kwd-flex-column {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.kwd-measurements-grid {
+	display: grid;
+	grid-template-columns: 30% 70%;
+	gap: 0.5rem;
+}
+
+.kwd-materials-grid {
+	display: grid;
+	grid-template-columns: auto 80%;
+	gap: 0.5rem;
+}
+
+.kwd-product-info-container {
+	margin: 1rem 0;
+}
+
+.kwd-specifications-container {
+	display: grid;
+	grid-template-columns: 50% 50%;
+	gap: 1rem;
 }
