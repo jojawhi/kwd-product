@@ -23,53 +23,61 @@ export default function save({ attributes }) {
 
 	return (
 		<div {...blockProps}>
-			<div>
+			<div class="kwd-product-section-container">
 				<RichText.Content tagName="p" value={attributes.description} />
 			</div>
 			<div style={{ display: "flex" }}>
-				<p>$</p>
-				<RichText.Content tagName="p" value={attributes.price} />
+				<p className="kwd-price">$</p>
+				<RichText.Content
+					tagName="p"
+					value={attributes.price}
+					className="kwd-price"
+				/>
 			</div>
-			<div className="kwd-specifications-container">
-				<div style={{ display: "flex", flexDirection: "column" }}>
-					<h2>Materials</h2>
-					{attributes.materials
-						? attributes.materials.map((material, index) => {
-								return (
-									<div key={index} className="kwd-materials-grid">
-										<RichText.Content
-											tagName="p"
-											format="string"
-											value={`${material.piece}:`}
-										/>
-										<RichText.Content tagName="p" value={material.madeFrom} />
-									</div>
-								);
-						  })
-						: ""}
-				</div>
-				<div style={{ display: "flex", flexDirection: "column" }}>
-					<h2>Measurements</h2>
-					{attributes.measurements
-						? attributes.measurements.map((measurement, index) => {
-								if (measurement.value !== "") {
+			<div class="kwd-product-section-container">
+				<h2>Specifications</h2>
+				<div className="kwd-product-specs-container">
+					<div style={{ display: "flex", flexDirection: "column" }}>
+						<h2>Materials</h2>
+						{attributes.materials
+							? attributes.materials.map((material, index) => {
 									return (
-										<div key={index} style={{ display: "flex", gap: "1rem" }}>
-											<p>{measurement.name}</p>
-											<div className="kwd-measurements-grid">
-												<RichText.Content
-													tagName="p"
-													value={measurement.value}
-												/>
-												<p>{measurement.unit}</p>
-											</div>
+										<div key={index} className="kwd-materials-grid">
+											<RichText.Content
+												tagName="p"
+												format="string"
+												value={`${material.piece}:`}
+												className="kwd-specs-label"
+											/>
+											<RichText.Content tagName="p" value={material.madeFrom} />
 										</div>
 									);
-								} else {
-									return;
-								}
-						  })
-						: null}
+							  })
+							: ""}
+					</div>
+					<div style={{ display: "flex", flexDirection: "column" }}>
+						<h2>Measurements</h2>
+						{attributes.measurements
+							? attributes.measurements.map((measurement, index) => {
+									if (measurement.value !== "") {
+										return (
+											<div key={index} style={{ display: "flex", gap: "1rem" }}>
+												<p className="kwd-specs-label">{measurement.name}</p>
+												<div className="kwd-measurements-grid">
+													<RichText.Content
+														tagName="p"
+														value={measurement.value}
+													/>
+													<p>{measurement.unit}</p>
+												</div>
+											</div>
+										);
+									} else {
+										return;
+									}
+							  })
+							: null}
+					</div>
 				</div>
 			</div>
 		</div>
