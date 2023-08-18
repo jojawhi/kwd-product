@@ -41,7 +41,7 @@
 	display: grid;
 	grid-template-columns: max-content max-content;
 	gap: 5%;
-	padding-inline: 1rem;
+	// padding-inline: 1rem;
 }
 
 .kwd-product-section-container {
@@ -58,4 +58,31 @@
 	font-family: "Averia Serif Libre";
 	font-size: 1.5rem;
 	font-weight: bold;
+}
+
+.kwd-mats-piece {
+}
+
+.kwd-mats-made-from {
+}
+
+.kwd-measurement-name {
+}
+
+.kwd-measurement-value {
+}
+
+.kwd-measurement-unit {
+}
+
+@media only screen and (min-width: 481px) {
+}
+
+@media only screen and (min-width: 768px) {
+}
+
+@media only screen and (min-width: 1025px) {
+}
+
+@media only screen and (min-width: 1201px) {
 }

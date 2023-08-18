@@ -26,14 +26,21 @@ export default function save({ attributes }) {
 			<div class="kwd-product-section-container">
 				<RichText.Content tagName="p" value={attributes.description} />
 			</div>
-			<div style={{ display: "flex" }}>
-				<p className="kwd-price">$</p>
-				<RichText.Content
-					tagName="p"
-					value={attributes.price}
-					className="kwd-price"
-				/>
-			</div>
+			{attributes.price !== "" ? (
+				<div style={{ display: "flex" }}>
+					<p className="kwd-price">$</p>
+					<RichText.Content
+						tagName="p"
+						value={attributes.price}
+						className="kwd-price"
+					/>
+				</div>
+			) : (
+				<p class="kwd-pric">
+					Available by <a href="/contact">special order</a>
+				</p>
+			)}
+
 			<div class="kwd-product-section-container">
 				<h2>Specifications</h2>
 				<div className="kwd-product-specs-container">
@@ -47,9 +54,13 @@ export default function save({ attributes }) {
 												tagName="p"
 												format="string"
 												value={`${material.piece}:`}
-												className="kwd-specs-label"
+												className="kwd-mats-piece"
 											/>
-											<RichText.Content tagName="p" value={material.madeFrom} />
+											<RichText.Content
+												tagName="p"
+												value={material.madeFrom}
+												className="kwd-mats-made-from"
+											/>
 										</div>
 									);
 							  })
@@ -62,13 +73,18 @@ export default function save({ attributes }) {
 									if (measurement.value !== "") {
 										return (
 											<div key={index} style={{ display: "flex", gap: "1rem" }}>
-												<p className="kwd-specs-label">{measurement.name}</p>
+												<p className="kwd-measurement-name">
+													{measurement.name}
+												</p>
 												<div className="kwd-measurements-grid">
 													<RichText.Content
 														tagName="p"
 														value={measurement.value}
+														className="kwd-measurement-value"
 													/>
-													<p>{measurement.unit}</p>
+													<p className="kwd-measurement-unit">
+														{measurement.unit}
+													</p>
 												</div>
 											</div>
 										);

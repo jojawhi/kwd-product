@@ -78,28 +78,29 @@ export default function Edit({ attributes, setAttributes }) {
 
 		console.log("useEffect", attributes);
 	}, [formData]);
+
 	// const clearFormData = setFormData(defaultFormData);
 
 	const addPiece = () => {
-		const newMaterials = formData.materials;
+		const newMaterials = [...formData.materials];
+
+		console.log("Mutation1:", newMaterials === formData.materials);
 
 		newMaterials.push({ piece: "", madeFrom: "" });
 
-		setFormData({ ...formData, materials: newMaterials });
+		// const newMaterials = formData.materials;
 
-		// setAttributes({ ...attributes, materials: formData.materials });
+		// console.log("Mutation2:", newMaterials === formData.materials);
+
+		setFormData({ ...formData, materials: newMaterials });
 	};
 
 	const removePiece = (event, index) => {
-		let newMaterials = formData.materials;
+		let newMaterials = [...formData.materials];
 
 		newMaterials.splice(index, 1);
 
-		// console.log("After remove: ", materials);
-
 		setFormData({ ...formData, materials: newMaterials });
-
-		// setAttributes({ ...attributes, materials: formData.materials });
 	};
 
 	const handleDescriptionChange = (content) => {
@@ -108,13 +109,9 @@ export default function Edit({ attributes, setAttributes }) {
 				...formData,
 				description: content,
 			});
-
-			// setAttributes({ ...attributes, description: formData.description });
 		} else {
 			return;
 		}
-
-		// console.log("Attributes: ", attributes);
 	};
 
 	const handlePriceChange = (content) => {
@@ -123,83 +120,69 @@ export default function Edit({ attributes, setAttributes }) {
 				...formData,
 				price: content,
 			});
-
-			// setAttributes({ ...attributes, price: formData.price });
 		} else {
 			return;
 		}
-
-		// console.log("Attributes: ", attributes);
 	};
 
 	const handleMaterialPieceChange = (value, index) => {
-		const materials = formData.materials;
+		const newMaterials = [...formData.materials];
+
+		console.log("Mutation:", newMaterials === formData.materials);
 
 		if (value) {
-			materials[index].piece = value;
+			newMaterials[index].piece = value;
 
 			setFormData({
 				...formData,
-				materials: materials,
+				materials: newMaterials,
 			});
-
-			// setAttributes({ ...attributes, materials: formData.materials });
 		} else {
 			return;
 		}
-
-		// console.log("Materials: ", attributes.materials);
 	};
 
 	const handleMaterialMadeFromChange = (value, index) => {
-		const materials = formData.materials;
+		const newMaterials = [...formData.materials];
+
+		console.log("Mutation:", newMaterials === formData.materials);
 
 		if (value) {
-			materials[index].madeFrom = value;
+			newMaterials[index].madeFrom = value;
 
 			setFormData({
 				...formData,
-				materials: materials,
+				materials: newMaterials,
 			});
-
-			// setAttributes({ ...attributes, materials: formData.materials });
 		} else {
 			return;
 		}
-
-		// console.log("Materials: ", attributes.materials);
 	};
 
 	const handleMeasurementChange = (value, index) => {
-		const measurements = formData.measurements;
+		const newMeasurements = [...formData.measurements];
+
+		console.log("Mutation:", newMeasurements === formData.measurements);
 
 		if (value) {
-			measurements[index].value = value;
+			newMeasurements[index].value = value;
 
-			setFormData({ ...formData, measurements: measurements });
-
-			// setAttributes({ ...attributes, measurements: formData.measurements });
+			setFormData({ ...formData, measurements: newMeasurements });
 		} else {
 			return;
 		}
-
-		// console.log("Measurements: ", attributes.measurements);
 	};
 
 	const handleUnitChange = (event, index) => {
-		const measurements = formData.measurements;
+		const newMeasurements = [...formData.measurements];
 
 		if (event) {
 			const { value } = event.target;
 
-			measurements[index].unit = value;
+			newMeasurements[index].unit = value;
 
-			setFormData({ ...formData, measurements: measurements });
-
-			// setAttributes({ ...attributes, measurements: formData.measurements });
+			setFormData({ ...formData, measurements: newMeasurements });
 		}
-
-		// console.log("Measurements: ", attributes.measurements);
 	};
 
 	return (
@@ -221,7 +204,7 @@ export default function Edit({ attributes, setAttributes }) {
 			<div className="kwd-product-info-container">
 				<h2>Price: </h2>
 				<div className="kwd-flex-row">
-					<p>$</p>
+					<p className="kwd-edit-price-label">$</p>
 					<RichText
 						className="kwd-edit-input"
 						tagName="p"
@@ -284,6 +267,7 @@ export default function Edit({ attributes, setAttributes }) {
 							+ Add Part
 						</button>
 					</div>
+
 					<div className="kwd-product-info-container">
 						<h2>Measurements</h2>
 						{formData.measurements.map((measurement, index) => {
