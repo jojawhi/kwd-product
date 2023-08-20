@@ -12,7 +12,11 @@ import { useState, useEffect } from "@wordpress/element";
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, RichText } from "@wordpress/block-editor";
+import {
+	useBlockProps,
+	RichText,
+	ToggleControl,
+} from "@wordpress/block-editor";
 import { Dashicon } from "@wordpress/components";
 
 /**
@@ -67,6 +71,9 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	const [formData, setFormData] = useState(defaultFormData);
+	const [priceDisabled, setPriceDisabled] = useState(false);
+	const [materialsDisabled, setMaterialsDisabled] = useState(false);
+	const [measurementsDisabled, setMeasurementsDisabled] = useState(false);
 
 	useEffect(() => {
 		setAttributes({
@@ -79,18 +86,40 @@ export default function Edit({ attributes, setAttributes }) {
 		console.log("useEffect", attributes);
 	}, [formData]);
 
-	// const clearFormData = setFormData(defaultFormData);
+	const clearPrice = () => {
+		setFormData({ ...formData, price: defaultFormData.price });
+	};
+
+	const clearMaterials = () => {
+		setFormData({ ...formData, materials: defaultFormData.materials });
+	};
+	const clearMeasurements = () => {
+		setFormData({ ...formData, measurements: [{}] });
+	};
+
+	const togglePrice = () => {
+		clearPrice();
+		setPriceDisabled((state) => !state);
+	};
+
+	const toggleMaterials = () => {
+		clearMaterials();
+		setMaterialsDisabled(!materialsDisabled);
+	};
+
+	const toggleMeasurements = () => {
+		clearMeasurements();
+		setMeasurementsDisabled(!measurementsDisabled);
+	};
 
 	const addPiece = () => {
+		// Logic fix to add [...] around formData.materials to prevent mutation: https://github.com/WordPress/gutenberg/issues/7238
+
 		const newMaterials = [...formData.materials];
 
 		console.log("Mutation1:", newMaterials === formData.materials);
 
 		newMaterials.push({ piece: "", madeFrom: "" });
-
-		// const newMaterials = formData.materials;
-
-		// console.log("Mutation2:", newMaterials === formData.materials);
 
 		setFormData({ ...formData, materials: newMaterials });
 	};
@@ -202,20 +231,28 @@ export default function Edit({ attributes, setAttributes }) {
 				/>
 			</div>
 			<div className="kwd-product-info-container">
-				<h2>Price: </h2>
-				<div className="kwd-flex-row">
-					<p className="kwd-edit-price-label">$</p>
-					<RichText
-						className="kwd-edit-input"
-						tagName="p"
-						withoutInteractiveFormatting="true"
-						name="price"
-						id="price"
-						value={formData.price}
-						placeholder="9999"
-						onChange={(content) => handlePriceChange(content)}
-					/>
-				</div>
+				{!priceDisabled ? (
+					<div>
+						<h2>Price: </h2>
+						<div className="kwd-flex-row">
+							<p className="kwd-edit-price-label">$</p>
+							<RichText
+								className="kwd-edit-input"
+								tagName="p"
+								withoutInteractiveFormatting="true"
+								name="price"
+								id="price"
+								value={formData.price}
+								placeholder="9999"
+								onChange={(content) => handlePriceChange(content)}
+							/>
+						</div>
+					</div>
+				) : (
+					<div></div>
+				)}
+
+				{/* Checkbox or toggle goes here */}
 			</div>
 			<div class="kwd-product-section-container">
 				<h2>Specifications</h2>

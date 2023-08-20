@@ -26,7 +26,7 @@ export default function save({ attributes }) {
 			<div class="kwd-product-section-container">
 				<RichText.Content tagName="p" value={attributes.description} />
 			</div>
-			{attributes.price !== "" ? (
+			{attributes.price.length > 1 ? (
 				<div style={{ display: "flex" }}>
 					<p className="kwd-price">$</p>
 					<RichText.Content
@@ -36,8 +36,8 @@ export default function save({ attributes }) {
 					/>
 				</div>
 			) : (
-				<p class="kwd-pric">
-					Available by <a href="/contact">special order</a>
+				<p class="kwd-price">
+					Available for <a href="/contact">special order</a>
 				</p>
 			)}
 
