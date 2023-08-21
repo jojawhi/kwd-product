@@ -537,7 +537,7 @@ function save({
       display: "flex",
       flexDirection: "column"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Materials"), attributes.materials ? attributes.materials.map((material, index) => {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Materials"), attributes.materials ? attributes.materials.map((material, index) => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       key: index,
       className: "kwd-materials-grid"
@@ -556,7 +556,7 @@ function save({
       display: "flex",
       flexDirection: "column"
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Measurements"), attributes.measurements ? attributes.measurements.map((measurement, index) => {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Measurements"), attributes.measurements ? attributes.measurements.map((measurement, index) => {
     if (measurement.value !== "") {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
         key: index,

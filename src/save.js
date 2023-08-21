@@ -45,7 +45,7 @@ export default function save({ attributes }) {
 				<h2>Specifications</h2>
 				<div className="kwd-product-specs-container">
 					<div style={{ display: "flex", flexDirection: "column" }}>
-						<h2>Materials</h2>
+						<h3>Materials</h3>
 						{attributes.materials
 							? attributes.materials.map((material, index) => {
 									return (
@@ -67,7 +67,7 @@ export default function save({ attributes }) {
 							: ""}
 					</div>
 					<div style={{ display: "flex", flexDirection: "column" }}>
-						<h2>Measurements</h2>
+						<h3>Measurements</h3>
 						{attributes.measurements
 							? attributes.measurements.map((measurement, index) => {
 									if (measurement.value !== "") {
