@@ -23,6 +23,13 @@
 	border: none;
 }
 
+.kwd-edit-select {
+	background-color: rgba(60, 60, 60, 0.5);
+	color: white;
+	outline: none;
+	border: none;
+}
+
 .kwd-edit-product-specs-container {
 	display: flex;
 	flex-direction: column;
@@ -34,6 +41,7 @@
 	display: grid;
 	grid-template-columns: 45% 45% 5%;
 	gap: 0.25rem;
+	margin-bottom: 0.25rem;
 }
 
 .kwd-edit-measurement-grid {
@@ -78,35 +86,70 @@
 	}
 }
 
-.kwd-edit-price-label {
+.kwd-edit-input-label {
 	line-height: 2rem;
 }
 
-.kwd-edit-mats-piece {
-}
-
-.kwd-edit-mats-made-from {
-}
-
-.kwd-edit-measurement-name {
-}
-
+.kwd-edit-mats-piece,
+.kwd-edit-mats-made-from,
+.kwd-edit-measurement-name,
 .kwd-edit-measurement-value {
+	margin: 0;
 }
 
 .kwd-edit-measurement-unit {
 }
 
-.kwd-toggle-container {
+.kwd-toggle {
+	position: relative;
+	display: inline-block;
+	width: 50px;
+	height: 28px;
+	border-radius: 28px;
+}
+
+.kwd-toggle input {
+	opacity: 0;
+	width: 0;
+	height: 0;
 }
 
 .kwd-toggle-button {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	transition: all 300ms;
+	border-radius: 28px;
+	background-color: grey;
 }
 
-.kwd-toggle-on {
+.kwd-toggle-button::before {
+	position: absolute;
+	content: "";
+	height: 21px;
+	width: 21px;
+	left: 3px;
+	bottom: 3px;
+	transition: all 300ms;
+	background-color: #fff;
+	border-radius: 50%;
 }
 
-.kwd-toggle-off {
+input:checked + .kwd-toggle-button {
+	background-color: #2196f3;
+}
+
+input:focus + .kwd-toggle-button {
+	box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .kwd-toggle-button::before {
+	-webkit-transform: translateX(21px);
+	-ms-transform: translateX(21px);
+	transform: translateX(21px);
 }
 
 @media only screen and (min-width: 481px) {

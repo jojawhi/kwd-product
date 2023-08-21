@@ -12,12 +12,9 @@ import { useState, useEffect } from "@wordpress/element";
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import {
-	useBlockProps,
-	RichText,
-	ToggleControl,
-} from "@wordpress/block-editor";
+import { useBlockProps, RichText } from "@wordpress/block-editor";
 import { Dashicon } from "@wordpress/components";
+import Toggle from "./Toggle.jsx";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -71,9 +68,9 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	const [formData, setFormData] = useState(defaultFormData);
-	const [priceDisabled, setPriceDisabled] = useState(false);
-	const [materialsDisabled, setMaterialsDisabled] = useState(false);
-	const [measurementsDisabled, setMeasurementsDisabled] = useState(false);
+	const [priceEnabled, setPriceEnabled] = useState(true);
+	const [materialsEnabled, setMaterialsEnabled] = useState(true);
+	const [measurementsEnabled, setMeasurementsEnabled] = useState(true);
 
 	useEffect(() => {
 		setAttributes({
@@ -87,29 +84,63 @@ export default function Edit({ attributes, setAttributes }) {
 	}, [formData]);
 
 	const clearPrice = () => {
-		setFormData({ ...formData, price: defaultFormData.price });
+		setFormData({ ...formData, price: "" });
 	};
 
 	const clearMaterials = () => {
-		setFormData({ ...formData, materials: defaultFormData.materials });
+		setFormData({ ...formData, materials: [{ piece: "", madeFrom: "" }] });
 	};
+
 	const clearMeasurements = () => {
-		setFormData({ ...formData, measurements: [{}] });
+		setFormData({
+			...formData,
+			measurements: [
+				{
+					name: "Length:",
+					value: "",
+					unit: "cm",
+				},
+				{
+					name: "Width:",
+					value: "",
+					unit: "cm",
+				},
+				{
+					name: "Height:",
+					value: "",
+					unit: "cm",
+				},
+				{
+					name: "Depth:",
+					value: "",
+					unit: "cm",
+				},
+			],
+		});
 	};
 
 	const togglePrice = () => {
-		clearPrice();
-		setPriceDisabled((state) => !state);
+		if (priceEnabled) {
+			clearPrice();
+		}
+
+		setPriceEnabled((state) => !state);
+		console.log("Price Disabled:", priceEnabled);
 	};
 
 	const toggleMaterials = () => {
-		clearMaterials();
-		setMaterialsDisabled(!materialsDisabled);
+		if (materialsEnabled) {
+			clearMaterials();
+		}
+
+		setMaterialsEnabled((state) => !state);
 	};
 
 	const toggleMeasurements = () => {
-		clearMeasurements();
-		setMeasurementsDisabled(!measurementsDisabled);
+		if (measurementsEnabled) {
+			clearMeasurements();
+		}
+		setMeasurementsEnabled(!measurementsEnabled);
 	};
 
 	const addPiece = () => {
@@ -231,11 +262,18 @@ export default function Edit({ attributes, setAttributes }) {
 				/>
 			</div>
 			<div className="kwd-product-info-container">
-				{!priceDisabled ? (
-					<div>
+				<div>
+					<div class="kwd-flex-row">
 						<h2>Price: </h2>
+						<Toggle
+							toggleOnClick={() => togglePrice()}
+							disabled={priceEnabled}
+						/>
+					</div>
+
+					{priceEnabled ? (
 						<div className="kwd-flex-row">
-							<p className="kwd-edit-price-label">$</p>
+							<p className="kwd-edit-input-label">$</p>
 							<RichText
 								className="kwd-edit-input"
 								tagName="p"
@@ -247,99 +285,127 @@ export default function Edit({ attributes, setAttributes }) {
 								onChange={(content) => handlePriceChange(content)}
 							/>
 						</div>
-					</div>
-				) : (
-					<div></div>
-				)}
-
-				{/* Checkbox or toggle goes here */}
+					) : (
+						<p>
+							Available for <a href="/contact">special order</a>
+						</p>
+					)}
+				</div>
 			</div>
 			<div class="kwd-product-section-container">
-				<h2>Specifications</h2>
 				<div class="kwd-edit-product-specs-container">
 					<div className="kwd-flex-column">
-						<h2>Materials</h2>
-						<div className="kwd-edit-materials-grid">
-							<h3>Piece</h3>
-							<h3>Material</h3>
+						<div className="kwd-flex-row">
+							<h2>Materials</h2>
+							<Toggle
+								toggleOnClick={() => toggleMaterials()}
+								disabled={materialsEnabled}
+							/>
 						</div>
-						{formData.materials.map((material, index) => {
-							return (
-								<div key={index} className="kwd-edit-materials-grid">
-									<RichText
-										className="kwd-edit-input"
-										tagName="p"
-										format="string"
-										withoutInteractiveFormatting="true"
-										id={`piece-${index}`}
-										name={`piece-${index}`}
-										value={material.piece}
-										placeholder="Piece name"
-										onChange={(content) =>
-											handleMaterialPieceChange(content, index)
-										}
-									/>
-									<RichText
-										className="kwd-edit-input"
-										tagName="p"
-										withoutInteractiveFormatting="true"
-										id={`madeFrom-${index}`}
-										name={`madeFrom-${index}`}
-										value={material.madeFrom}
-										placeholder="Made from..."
-										onChange={(content) =>
-											handleMaterialMadeFromChange(content, index)
-										}
-									/>
-									<button
-										onClick={(e) => removePiece(e, index)}
-										className="kwd-edit-remove-button"
-									>
-										<Dashicon icon="remove" />
-									</button>
+						{materialsEnabled ? (
+							<div>
+								<div className="kwd-edit-materials-grid">
+									<h3>Piece</h3>
+									<h3>Material</h3>
 								</div>
-							);
-						})}
-						<button onClick={addPiece} className="kwd-edit-add-part-button">
-							+ Add Part
-						</button>
+								{formData.materials.map((material, index) => {
+									return (
+										<div key={index} className="kwd-edit-materials-grid">
+											<RichText
+												className="kwd-edit-input kwd-edit-mats-piece"
+												tagName="p"
+												format="string"
+												withoutInteractiveFormatting="true"
+												id={`piece-${index}`}
+												name={`piece-${index}`}
+												value={material.piece}
+												placeholder="Piece name"
+												onChange={(content) =>
+													handleMaterialPieceChange(content, index)
+												}
+											/>
+											<RichText
+												className="kwd-edit-input kwd-edit-mats-made-from"
+												tagName="p"
+												withoutInteractiveFormatting="true"
+												id={`madeFrom-${index}`}
+												name={`madeFrom-${index}`}
+												value={material.madeFrom}
+												placeholder="Made from..."
+												onChange={(content) =>
+													handleMaterialMadeFromChange(content, index)
+												}
+											/>
+											<button
+												onClick={(e) => removePiece(e, index)}
+												className="kwd-edit-remove-button"
+											>
+												<Dashicon icon="remove" />
+											</button>
+										</div>
+									);
+								})}
+								<button onClick={addPiece} className="kwd-edit-add-part-button">
+									+ Add Part
+								</button>
+							</div>
+						) : (
+							<p>Materials disabled.</p>
+						)}
 					</div>
 
 					<div className="kwd-product-info-container">
-						<h2>Measurements</h2>
-						{formData.measurements.map((measurement, index) => {
-							return (
-								<div key={index} className="kwd-edit-measurement-grid">
-									<p htmlFor={measurement.name}>{measurement.name}</p>
-									<div className="kwd-edit-measurement-subgrid">
-										<RichText
-											className="kwd-edit-input"
-											tagName="p"
-											withoutInteractiveFormatting="true"
-											id={`measurement-${index}`}
-											name={measurement.name}
-											value={measurement.value}
-											placeholder="0"
-											onChange={(content) =>
-												handleMeasurementChange(content, index)
-											}
-										/>
-										<select
-											name={`${measurement.name}-unit`}
-											id={`${measurement.name}-unit`}
-											onChange={(event) => handleUnitChange(event, index)}
-											className="kwd-edit-input"
-											value={measurement.unit}
-										>
-											<option value="cm">cm</option>
-											<option value="in">in</option>
-											<option value="m">m</option>
-											<option value="ft">ft</option>
-										</select>
-									</div>
-								</div>
-							);
-						})}
+						<div className="kwd-flex-row">
+							<h2>Measurements</h2>
+							<Toggle
+								toggleOnClick={() => toggleMeasurements()}
+								disabled={measurementsEnabled}
+							/>
+						</div>
+						{measurementsEnabled ? (
+							<div>
+								{formData.measurements.map((measurement, index) => {
+									return (
+										<div key={index} className="kwd-edit-measurement-grid">
+											<p
+												htmlFor={measurement.name}
+												className="kwd-edit-input-label kwd-edit-measurement-name"
+											>
+												{measurement.name}
+											</p>
+											<div className="kwd-edit-measurement-subgrid">
+												<RichText
+													className="kwd-edit-input kwd-edit-measurement-value"
+													tagName="p"
+													withoutInteractiveFormatting="true"
+													id={`measurement-${index}`}
+													name={measurement.name}
+													value={measurement.value}
+													placeholder="0"
+													onChange={(content) =>
+														handleMeasurementChange(content, index)
+													}
+												/>
+												<select
+													name={`${measurement.name}-unit`}
+													id={`${measurement.name}-unit`}
+													onChange={(event) => handleUnitChange(event, index)}
+													className="kwd-edit-select"
+													value={measurement.unit}
+												>
+													<option value="cm">cm</option>
+													<option value="in">in</option>
+													<option value="m">m</option>
+													<option value="ft">ft</option>
+												</select>
+											</div>
+										</div>
+									);
+								})}
+							</div>
+						) : (
+							<p>Materials disabled.</p>
+						)}
 					</div>
 				</div>
 			</div>
