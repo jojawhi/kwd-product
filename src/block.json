@@ -18,8 +18,14 @@
 		"price": {
 			"type": "string"
 		},
+		"materialsEnables": {
+			"type": "boolean"
+		},
 		"materials": {
 			"type": "array"
+		},
+		"measurementsEnabled": {
+			"type": "boolean"
 		},
 		"measurements": {
 			"type": "array"

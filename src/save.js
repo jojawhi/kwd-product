@@ -41,35 +41,40 @@ export default function save({ attributes }) {
 				</p>
 			)}
 
-			<div class="kwd-product-section-container">
-				<h2>Specifications</h2>
-				<div className="kwd-product-specs-container">
-					<div style={{ display: "flex", flexDirection: "column" }}>
-						<h3>Materials</h3>
-						{attributes.materials
-							? attributes.materials.map((material, index) => {
-									return (
-										<div key={index} className="kwd-materials-grid">
-											<RichText.Content
-												tagName="p"
-												format="string"
-												value={`${material.piece}:`}
-												className="kwd-mats-piece"
-											/>
-											<RichText.Content
-												tagName="p"
-												value={material.madeFrom}
-												className="kwd-mats-made-from"
-											/>
-										</div>
-									);
-							  })
-							: ""}
-					</div>
-					<div style={{ display: "flex", flexDirection: "column" }}>
-						<h3>Measurements</h3>
-						{attributes.measurements
-							? attributes.measurements.map((measurement, index) => {
+			{attributes.materialsEnabled === true ||
+			attributes.measurementsEnabled === true ? (
+				<div class="kwd-product-section-container">
+					<h2>Specifications</h2>
+					<div className="kwd-product-specs-container">
+						{attributes.materialsEnabled === true ? (
+							<div style={{ display: "flex", flexDirection: "column" }}>
+								<h3>Materials</h3>
+								{attributes.materials
+									? attributes.materials.map((material, index) => {
+											return (
+												<div key={index} className="kwd-materials-grid">
+													<RichText.Content
+														tagName="p"
+														format="string"
+														value={`${material.piece}:`}
+														className="kwd-mats-piece"
+													/>
+													<RichText.Content
+														tagName="p"
+														value={material.madeFrom}
+														className="kwd-mats-made-from"
+													/>
+												</div>
+											);
+									  })
+									: ""}
+							</div>
+						) : null}
+
+						{attributes.measurementsEnabled === true ? (
+							<div style={{ display: "flex", flexDirection: "column" }}>
+								<h3>Measurements</h3>
+								{attributes.measurements.map((measurement, index) => {
 									if (measurement.value !== "") {
 										return (
 											<div key={index} style={{ display: "flex", gap: "1rem" }}>
@@ -91,11 +96,12 @@ export default function save({ attributes }) {
 									} else {
 										return;
 									}
-							  })
-							: null}
+								})}
+							</div>
+						) : null}
 					</div>
 				</div>
-			</div>
+			) : null}
 		</div>
 	);
 }

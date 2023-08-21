@@ -38,9 +38,15 @@ export default function Edit({ attributes, setAttributes }) {
 	const defaultFormData = {
 		description: attributes.description ? attributes.description : "",
 		price: attributes.price ? attributes.price : "",
+		materialsEnabled: attributes.materialsEnabled
+			? attributes.materialsEnabled
+			: true,
 		materials: attributes.materials
 			? attributes.materials
 			: [{ piece: "", madeFrom: "" }],
+		measurementsEnabled: attributes.measurementsEnabled
+			? attributes.measurementsEnabled
+			: true,
 		measurements: attributes.measurements
 			? attributes.measurements
 			: [
@@ -76,7 +82,9 @@ export default function Edit({ attributes, setAttributes }) {
 		setAttributes({
 			description: formData.description,
 			price: formData.price,
+			materialsEnabled: formData.materialsEnabled,
 			materials: formData.materials,
+			measurementsEnabled: formData.measurementsEnabled,
 			measurements: formData.measurements,
 		});
 
@@ -125,7 +133,6 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 
 		setPriceEnabled((state) => !state);
-		console.log("Price Disabled:", priceEnabled);
 	};
 
 	const toggleMaterials = () => {
@@ -134,13 +141,15 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 
 		setMaterialsEnabled((state) => !state);
+		setFormData({ ...formData, materialsEnabled: materialsEnabled });
 	};
 
 	const toggleMeasurements = () => {
 		if (measurementsEnabled) {
 			clearMeasurements();
 		}
-		setMeasurementsEnabled(!measurementsEnabled);
+		setMeasurementsEnabled((state) => !state);
+		setFormData({ ...formData, measurementsEnabled: measurementsEnabled });
 	};
 
 	const addPiece = () => {
@@ -404,7 +413,7 @@ export default function Edit({ attributes, setAttributes }) {
 								})}
 							</div>
 						) : (
-							<p>Materials disabled.</p>
+							<p>Measurements disabled.</p>
 						)}
 					</div>
 				</div>
