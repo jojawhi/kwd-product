@@ -75,8 +75,8 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const [formData, setFormData] = useState(defaultFormData);
 	const [priceEnabled, setPriceEnabled] = useState(true);
-	const [materialsEnabled, setMaterialsEnabled] = useState(true);
-	const [measurementsEnabled, setMeasurementsEnabled] = useState(true);
+	// const [materialsEnabled, setMaterialsEnabled] = useState(true);
+	// const [measurementsEnabled, setMeasurementsEnabled] = useState(true);
 
 	useEffect(() => {
 		setAttributes({
@@ -95,37 +95,40 @@ export default function Edit({ attributes, setAttributes }) {
 		setFormData({ ...formData, price: "" });
 	};
 
-	const clearMaterials = () => {
-		setFormData({ ...formData, materials: [{ piece: "", madeFrom: "" }] });
-	};
+	// const clearMaterials = () => {
+	// 	setFormData({ ...formData, materials: [{ piece: "", madeFrom: "" }] });
+	// 	console.log("Materials cleared");
+	// };
 
-	const clearMeasurements = () => {
-		setFormData({
-			...formData,
-			measurements: [
-				{
-					name: "Length:",
-					value: "",
-					unit: "cm",
-				},
-				{
-					name: "Width:",
-					value: "",
-					unit: "cm",
-				},
-				{
-					name: "Height:",
-					value: "",
-					unit: "cm",
-				},
-				{
-					name: "Depth:",
-					value: "",
-					unit: "cm",
-				},
-			],
-		});
-	};
+	// const clearMeasurements = () => {
+	// 	setFormData({
+	// 		...formData,
+	// 		measurements: [
+	// 			{
+	// 				name: "Length:",
+	// 				value: "",
+	// 				unit: "cm",
+	// 			},
+	// 			{
+	// 				name: "Width:",
+	// 				value: "",
+	// 				unit: "cm",
+	// 			},
+	// 			{
+	// 				name: "Height:",
+	// 				value: "",
+	// 				unit: "cm",
+	// 			},
+	// 			{
+	// 				name: "Depth:",
+	// 				value: "",
+	// 				unit: "cm",
+	// 			},
+	// 		],
+	// 	});
+
+	// 	console.log("Measurements cleared");
+	// };
 
 	const togglePrice = () => {
 		if (priceEnabled) {
@@ -136,20 +139,59 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	const toggleMaterials = () => {
-		if (materialsEnabled) {
-			clearMaterials();
+		if (formData.materialsEnabled === true) {
+			// clearMaterials();
+			setFormData({
+				...formData,
+				materialsEnabled: false,
+				materials: [{ piece: "", madeFrom: "" }],
+			});
+			console.log("Materials cleared");
+		} else {
+			setFormData({ ...formData, materialsEnabled: true });
 		}
 
-		setMaterialsEnabled((state) => !state);
-		setFormData({ ...formData, materialsEnabled: materialsEnabled });
+		// setMaterialsEnabled((state) => !state);
+		// setFormData({ ...formData, materialsEnabled: materialsEnabled });
 	};
 
 	const toggleMeasurements = () => {
-		if (measurementsEnabled) {
-			clearMeasurements();
+		if (formData.measurementsEnabled === true) {
+			// clearMeasurements();
+			setFormData({
+				...formData,
+				measurementsEnabled: false,
+				measurements: [
+					{
+						name: "Length:",
+						value: "",
+						unit: "cm",
+					},
+					{
+						name: "Width:",
+						value: "",
+						unit: "cm",
+					},
+					{
+						name: "Height:",
+						value: "",
+						unit: "cm",
+					},
+					{
+						name: "Depth:",
+						value: "",
+						unit: "cm",
+					},
+				],
+			});
+
+			console.log("Measurements cleared");
+		} else {
+			setFormData({ ...formData, measurementsEnabled: true });
 		}
-		setMeasurementsEnabled((state) => !state);
-		setFormData({ ...formData, measurementsEnabled: measurementsEnabled });
+
+		// setMeasurementsEnabled((state) => !state);
+		// setFormData({ ...formData, measurementsEnabled: measurementsEnabled });
 	};
 
 	const addPiece = () => {
@@ -308,10 +350,10 @@ export default function Edit({ attributes, setAttributes }) {
 							<h2>Materials</h2>
 							<Toggle
 								toggleOnClick={() => toggleMaterials()}
-								disabled={materialsEnabled}
+								disabled={formData.materialsEnabled}
 							/>
 						</div>
-						{materialsEnabled ? (
+						{formData.materialsEnabled === true ? (
 							<div>
 								<div className="kwd-edit-materials-grid">
 									<h3>Piece</h3>
@@ -368,10 +410,10 @@ export default function Edit({ attributes, setAttributes }) {
 							<h2>Measurements</h2>
 							<Toggle
 								toggleOnClick={() => toggleMeasurements()}
-								disabled={measurementsEnabled}
+								disabled={formData.measurementsEnabled}
 							/>
 						</div>
-						{measurementsEnabled ? (
+						{formData.measurementsEnabled === true ? (
 							<div>
 								{formData.measurements.map((measurement, index) => {
 									return (
