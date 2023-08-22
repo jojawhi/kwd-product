@@ -20,7 +20,7 @@
     "price": {
       "type": "string"
     },
-    "materialsEnables": {
+    "materialsEnabled": {
       "type": "boolean"
     },
     "materials": {
