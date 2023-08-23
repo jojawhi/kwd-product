@@ -35,52 +35,24 @@ import "./editor.scss";
 export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();
 
+	console.log("From Edit: ", attributes);
+
 	const defaultFormData = {
-		description: attributes.description ? attributes.description : "",
-		price: attributes.price ? attributes.price : "",
-		materialsEnabled: attributes.materialsEnabled
-			? attributes.materialsEnabled
-			: true,
-		materials: attributes.materials
-			? attributes.materials
-			: [{ piece: "", madeFrom: "" }],
-		measurementsEnabled: attributes.measurementsEnabled
-			? attributes.measurementsEnabled
-			: true,
-		measurements: attributes.measurements
-			? attributes.measurements
-			: [
-					{
-						name: "Length:",
-						value: "",
-						unit: "cm",
-					},
-					{
-						name: "Width:",
-						value: "",
-						unit: "cm",
-					},
-					{
-						name: "Height:",
-						value: "",
-						unit: "cm",
-					},
-					{
-						name: "Depth:",
-						value: "",
-						unit: "cm",
-					},
-			  ],
+		description: attributes.description,
+		priceEnabled: attributes.priceEnabled,
+		price: attributes.price,
+		materialsEnabled: attributes.materialsEnabled,
+		materials: attributes.materials,
+		measurementsEnabled: attributes.measurementsEnabled,
+		measurements: attributes.measurements,
 	};
 
 	const [formData, setFormData] = useState(defaultFormData);
-	const [priceEnabled, setPriceEnabled] = useState(true);
-	// const [materialsEnabled, setMaterialsEnabled] = useState(true);
-	// const [measurementsEnabled, setMeasurementsEnabled] = useState(true);
 
 	useEffect(() => {
 		setAttributes({
 			description: formData.description,
+			priceEnabled: formData.priceEnabled,
 			price: formData.price,
 			materialsEnabled: formData.materialsEnabled,
 			materials: formData.materials,
@@ -88,76 +60,33 @@ export default function Edit({ attributes, setAttributes }) {
 			measurements: formData.measurements,
 		});
 
-		console.log("useEffect", attributes);
+		console.log("useEffect: ", attributes);
 	}, [formData]);
 
-	const clearPrice = () => {
-		setFormData({ ...formData, price: "" });
-	};
-
-	// const clearMaterials = () => {
-	// 	setFormData({ ...formData, materials: [{ piece: "", madeFrom: "" }] });
-	// 	console.log("Materials cleared");
-	// };
-
-	// const clearMeasurements = () => {
-	// 	setFormData({
-	// 		...formData,
-	// 		measurements: [
-	// 			{
-	// 				name: "Length:",
-	// 				value: "",
-	// 				unit: "cm",
-	// 			},
-	// 			{
-	// 				name: "Width:",
-	// 				value: "",
-	// 				unit: "cm",
-	// 			},
-	// 			{
-	// 				name: "Height:",
-	// 				value: "",
-	// 				unit: "cm",
-	// 			},
-	// 			{
-	// 				name: "Depth:",
-	// 				value: "",
-	// 				unit: "cm",
-	// 			},
-	// 		],
-	// 	});
-
-	// 	console.log("Measurements cleared");
-	// };
-
 	const togglePrice = () => {
-		if (priceEnabled) {
-			clearPrice();
+		if (formData.priceEnabled === true) {
+			setFormData({ ...formData, priceEnabled: false, price: "" });
+		} else {
+			setFormData({ ...formData, priceEnabled: true });
 		}
-
-		setPriceEnabled((state) => !state);
 	};
 
 	const toggleMaterials = () => {
 		if (formData.materialsEnabled === true) {
-			// clearMaterials();
 			setFormData({
 				...formData,
 				materialsEnabled: false,
 				materials: [{ piece: "", madeFrom: "" }],
 			});
+
 			console.log("Materials cleared");
 		} else {
 			setFormData({ ...formData, materialsEnabled: true });
 		}
-
-		// setMaterialsEnabled((state) => !state);
-		// setFormData({ ...formData, materialsEnabled: materialsEnabled });
 	};
 
 	const toggleMeasurements = () => {
 		if (formData.measurementsEnabled === true) {
-			// clearMeasurements();
 			setFormData({
 				...formData,
 				measurementsEnabled: false,
@@ -189,9 +118,6 @@ export default function Edit({ attributes, setAttributes }) {
 		} else {
 			setFormData({ ...formData, measurementsEnabled: true });
 		}
-
-		// setMeasurementsEnabled((state) => !state);
-		// setFormData({ ...formData, measurementsEnabled: measurementsEnabled });
 	};
 
 	const addPiece = () => {
@@ -318,11 +244,11 @@ export default function Edit({ attributes, setAttributes }) {
 						<h2>Price: </h2>
 						<Toggle
 							toggleOnClick={() => togglePrice()}
-							disabled={priceEnabled}
+							disabled={formData.priceEnabled}
 						/>
 					</div>
 
-					{priceEnabled ? (
+					{formData.priceEnabled === true ? (
 						<div className="kwd-flex-row">
 							<p className="kwd-edit-input-label">$</p>
 							<RichText

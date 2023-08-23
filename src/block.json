@@ -13,22 +13,53 @@
 	},
 	"attributes": {
 		"description": {
-			"type": "string"
+			"type": "string",
+			"default": ""
+		},
+		"priceEnabled": {
+			"type": "boolean",
+			"default": true
 		},
 		"price": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"materialsEnabled": {
-			"type": "boolean"
+			"type": "boolean",
+			"default": true
 		},
 		"materials": {
-			"type": "array"
+			"type": "array",
+			"default": [{ "piece": "", "madeFrom": "" }]
 		},
 		"measurementsEnabled": {
-			"type": "boolean"
+			"type": "boolean",
+			"default": true
 		},
 		"measurements": {
-			"type": "array"
+			"type": "array",
+			"default": [
+				{
+					"name": "Length:",
+					"value": "",
+					"unit": "cm"
+				},
+				{
+					"name": "Width:",
+					"value": "",
+					"unit": "cm"
+				},
+				{
+					"name": "Height:",
+					"value": "",
+					"unit": "cm"
+				},
+				{
+					"name": "Depth:",
+					"value": "",
+					"unit": "cm"
+				}
+			]
 		}
 	},
 	"textdomain": "konomoto-product-block",
