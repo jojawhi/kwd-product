@@ -35,7 +35,7 @@ import "./editor.scss";
 export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();
 
-	console.log("From Edit: ", attributes);
+	// console.log("From Edit: ", attributes);
 
 	const defaultFormData = {
 		description: attributes.description,
@@ -60,7 +60,7 @@ export default function Edit({ attributes, setAttributes }) {
 			measurements: formData.measurements,
 		});
 
-		console.log("useEffect: ", attributes);
+		// console.log("useEffect: ", attributes);
 	}, [formData]);
 
 	const togglePrice = () => {
@@ -79,7 +79,7 @@ export default function Edit({ attributes, setAttributes }) {
 				materials: [{ piece: "", madeFrom: "" }],
 			});
 
-			console.log("Materials cleared");
+			// console.log("Materials cleared");
 		} else {
 			setFormData({ ...formData, materialsEnabled: true });
 		}
@@ -114,7 +114,7 @@ export default function Edit({ attributes, setAttributes }) {
 				],
 			});
 
-			console.log("Measurements cleared");
+			// console.log("Measurements cleared");
 		} else {
 			setFormData({ ...formData, measurementsEnabled: true });
 		}
@@ -124,8 +124,6 @@ export default function Edit({ attributes, setAttributes }) {
 		// Logic fix to add [...] around formData.materials to prevent mutation: https://github.com/WordPress/gutenberg/issues/7238
 
 		const newMaterials = [...formData.materials];
-
-		console.log("Mutation1:", newMaterials === formData.materials);
 
 		newMaterials.push({ piece: "", madeFrom: "" });
 
@@ -165,8 +163,6 @@ export default function Edit({ attributes, setAttributes }) {
 	const handleMaterialPieceChange = (value, index) => {
 		const newMaterials = [...formData.materials];
 
-		console.log("Mutation:", newMaterials === formData.materials);
-
 		if (value) {
 			newMaterials[index].piece = value;
 
@@ -182,8 +178,6 @@ export default function Edit({ attributes, setAttributes }) {
 	const handleMaterialMadeFromChange = (value, index) => {
 		const newMaterials = [...formData.materials];
 
-		console.log("Mutation:", newMaterials === formData.materials);
-
 		if (value) {
 			newMaterials[index].madeFrom = value;
 
@@ -198,8 +192,6 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const handleMeasurementChange = (value, index) => {
 		const newMeasurements = [...formData.measurements];
-
-		console.log("Mutation:", newMeasurements === formData.measurements);
 
 		if (value) {
 			newMeasurements[index].value = value;
