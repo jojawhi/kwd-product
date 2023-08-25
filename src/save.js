@@ -19,7 +19,7 @@ import "./style.scss";
 export default function save({ attributes }) {
 	const blockProps = useBlockProps.save();
 
-	console.log("From Save: ", attributes);
+	// console.log("From Save: ", attributes);
 
 	return (
 		<div {...blockProps}>
