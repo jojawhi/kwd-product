@@ -58,12 +58,26 @@ function kwd_register_product_post_type()
 			'supports' => array('editor', 'title', 'thumbnail'),
 			'template' => array(
 				array(
-					'konomotoblock/konomoto-product-block',
-					array('lock' => array(
+					'konomotoblock/konomoto-carousel-block', array('lock' => array(
 						'move' => true,
 						'remove' => true
 					))
 				),
+				array(
+					'core/group', array(), array(
+						array(
+							'core/post-title', array()
+						),
+						array(
+							'konomotoblock/konomoto-product-block',
+							array('lock' => array(
+								'move' => true,
+								'remove' => true
+							))
+						),
+					),
+
+				)
 			)
 		)
 	);
