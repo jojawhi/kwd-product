@@ -52,7 +52,16 @@
 .kwd-product-section-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+}
+
+.kwd-product-specs-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.kwd-product-specs-title {
+  margin-top: 0;
 }
 
 .kwd-specs-label {

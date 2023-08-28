@@ -47,8 +47,8 @@ export default function save({ attributes }) {
 					<h2>Specifications</h2>
 					<div className="kwd-product-specs-container">
 						{attributes.materialsEnabled === true ? (
-							<div style={{ display: "flex", flexDirection: "column" }}>
-								<h3>Materials</h3>
+							<div className="kwd-product-specs-section">
+								<h3 className="kwd-product-specs-title">Materials</h3>
 								{attributes.materials
 									? attributes.materials.map((material, index) => {
 											return (
@@ -72,8 +72,8 @@ export default function save({ attributes }) {
 						) : null}
 
 						{attributes.measurementsEnabled === true ? (
-							<div style={{ display: "flex", flexDirection: "column" }}>
-								<h3>Measurements</h3>
+							<div className="kwd-product-specs-section">
+								<h3 className="kwd-product-specs-title">Measurements</h3>
 								{attributes.measurements.map((measurement, index) => {
 									if (measurement.value !== "") {
 										return (

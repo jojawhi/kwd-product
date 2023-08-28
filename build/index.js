@@ -528,11 +528,10 @@ function save({
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Specifications"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "kwd-product-specs-container"
   }, attributes.materialsEnabled === true ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column"
-    }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Materials"), attributes.materials ? attributes.materials.map((material, index) => {
+    className: "kwd-product-specs-section"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
+    className: "kwd-product-specs-title"
+  }, "Materials"), attributes.materials ? attributes.materials.map((material, index) => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       key: index,
       className: "kwd-materials-grid"
@@ -547,11 +546,10 @@ function save({
       className: "kwd-mats-made-from"
     }));
   }) : "") : null, attributes.measurementsEnabled === true ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column"
-    }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Measurements"), attributes.measurements.map((measurement, index) => {
+    className: "kwd-product-specs-section"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
+    className: "kwd-product-specs-title"
+  }, "Measurements"), attributes.measurements.map((measurement, index) => {
     if (measurement.value !== "") {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
         key: index,
