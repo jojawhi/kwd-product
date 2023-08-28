@@ -9,10 +9,6 @@
 	padding-inline: 1rem;
 	background-color: transparent;
 	color: #fff;
-
-	& p {
-		margin: 0.5rem 0;
-	}
 }
 
 .kwd-flex-row {
@@ -63,6 +59,7 @@
 
 .kwd-product-specs-title {
 	margin-top: 0;
+	margin-bottom: 0.5rem;
 }
 
 .kwd-specs-label {
@@ -76,18 +73,23 @@
 }
 
 .kwd-mats-piece {
+	margin-top: 0;
 }
 
 .kwd-mats-made-from {
+	margin-top: 0;
 }
 
 .kwd-measurement-name {
+	margin-top: 0;
 }
 
 .kwd-measurement-value {
+	margin-top: 0;
 }
 
 .kwd-measurement-unit {
+	margin-top: 0;
 }
 
 @media only screen and (min-width: 481px) {
