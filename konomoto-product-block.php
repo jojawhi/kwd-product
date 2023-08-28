@@ -44,47 +44,6 @@ function create_block_konomoto_product_block_init()
 }
 add_action('init', 'create_block_konomoto_product_block_init');
 
-function kwd_register_product_post_type()
-{
-	register_post_type(
-		'product',
-		array(
-			'label' => 'Products',
-			'public' => true,
-			'show_in_rest' => true,
-			'menu_icon' => 'dashicons-products',
-			'menu_position' => 10,
-			'rewrite' => array('slug' => 'gallery'),
-			'supports' => array('editor', 'title', 'thumbnail'),
-			'template' => array(
-				array(
-					'konomotoblock/konomoto-carousel-block', array('lock' => array(
-						'move' => true,
-						'remove' => true
-					))
-				),
-				array(
-					'core/group', array(), array(
-						array(
-							'core/post-title', array()
-						),
-						array(
-							'konomotoblock/konomoto-product-block',
-							array('lock' => array(
-								'move' => true,
-								'remove' => true
-							))
-						),
-					),
-
-				)
-			)
-		)
-	);
-}
-
-add_action('init', 'kwd_register_product_post_type');
-
 // function kwd_product_register_meta_fields()
 // {
 // 	register_post_meta('product', 'price', array(

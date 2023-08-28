@@ -5,7 +5,8 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-konomoto-product-block {
+.wp-block-konomotoblock-konomoto-product-block {
+	padding-inline: 1rem;
 	background-color: transparent;
 	color: #fff;
 
@@ -43,6 +44,10 @@
 	flex-direction: column;
 	gap: 5%;
 	// padding-inline: 1rem;
+
+	h3 {
+		margin-top: 0;
+	}
 }
 
 .kwd-product-section-container {
@@ -80,6 +85,10 @@
 }
 
 @media only screen and (min-width: 768px) {
+	.wp-block-konomotoblock-konomoto-product-block {
+		padding-inline: 3rem;
+	}
+
 	.kwd-product-specs-container {
 		display: grid;
 		grid-template-columns: max-content max-content;
