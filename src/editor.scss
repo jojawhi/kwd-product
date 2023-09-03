@@ -28,6 +28,7 @@
 	color: white;
 	outline: none;
 	border: none;
+	padding-inline: 0.25rem;
 }
 
 .kwd-edit-product-specs-container {
@@ -46,14 +47,14 @@
 
 .kwd-edit-measurement-grid {
 	display: grid;
-	grid-template-columns: 15% 80%;
+	grid-template-columns: max-content auto;
 	gap: 1rem;
 	margin-bottom: 0.25rem;
 }
 
 .kwd-edit-measurement-subgrid {
 	display: grid;
-	grid-template-columns: 75% 20%;
+	grid-template-columns: auto max-content;
 	gap: 0.25rem;
 }
 
@@ -97,7 +98,8 @@
 	margin: 0;
 }
 
-.kwd-edit-measurement-unit {
+.kwd-edit-measurement-name {
+	width: max-content;
 }
 
 .kwd-toggle {

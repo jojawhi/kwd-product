@@ -36,7 +36,7 @@ export default function save({ attributes }) {
 					/>
 				</div>
 			) : (
-				<p>
+				<p className="kwd-price-special-order">
 					Available for <a href="/contact">special order</a>
 				</p>
 			)}

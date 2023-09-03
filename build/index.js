@@ -314,7 +314,9 @@ function Edit({
     value: formData.price,
     placeholder: "9999",
     onChange: content => handlePriceChange(content)
-  })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Available for ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "kwd-price-special-order"
+  }, "Available for ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "/contact"
   }, "special order")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "kwd-product-section-container"
@@ -521,7 +523,9 @@ function save({
     tagName: "p",
     value: attributes.price,
     className: "kwd-price"
-  })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Available for ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "kwd-price-special-order"
+  }, "Available for ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "/contact"
   }, "special order")), attributes.materialsEnabled === true || attributes.measurementsEnabled === true ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "kwd-product-section-container"

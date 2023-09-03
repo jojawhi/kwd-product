@@ -9,6 +9,7 @@
 	padding-inline: 1rem;
 	background-color: transparent;
 	color: #fff;
+	margin-block-start: 0 !important;
 }
 
 .kwd-flex-row {
@@ -68,8 +69,16 @@
 
 .kwd-price {
 	font-family: "Averia Serif Libre";
-	font-size: 1.5rem;
+	font-size: 2rem;
 	font-weight: bold;
+}
+
+.kwd-price-special-order {
+	color: white;
+
+	& a {
+		color: white;
+	}
 }
 
 .kwd-mats-piece {
@@ -99,11 +108,13 @@
 	.wp-block-konomotoblock-konomoto-product-block {
 		padding-inline: 3rem;
 	}
+}
 
+@media only screen and (min-width: 900px) {
 	.kwd-product-specs-container {
 		display: grid;
 		grid-template-columns: max-content max-content;
-		gap: 5%;
+		gap: 10%;
 	}
 }
 
